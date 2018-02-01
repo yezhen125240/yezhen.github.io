@@ -1,0 +1,36 @@
+/*
+
+ * Support: http://www.shopxx.net
+ * License: http://www.shopxx.net/license
+ */
+package net.shop.dao.impl;
+
+import javax.persistence.NoResultException;
+
+import net.shop.dao.SeoDao;
+import net.shop.entity.Seo;
+
+import org.springframework.stereotype.Repository;
+
+/**
+ * Dao - SEO设置
+ * 
+ * @author SHOP++ Team
+ * @version 4.0
+ */
+@Repository("seoDaoImpl")
+public class SeoDaoImpl extends BaseDaoImpl<Seo, Long> implements SeoDao {
+
+	public Seo find(Seo.Type type) {
+		if (type == null) {
+			return null;
+		}
+		try {
+			String jpql = "select seo from Seo seo where seo.type = :type";
+			return entityManager.createQuery(jpql, Seo.class).setParameter("type", type).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+}
